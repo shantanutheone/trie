@@ -89,6 +89,9 @@ class Trie:
             at = at.children[self.Ord(i)]
             at.count -= 1
         at.numEndofWord -= 1
+        # Mark End of Word as False if numEndOfWord becomes 0
+        if(at.numEndofWord == 0):
+            at.isEndOfWord = False
         at = self.root
         for i in string:
             if(at.children[self.Ord(i)].count == 0):
@@ -101,5 +104,6 @@ for key in keys:
     T.insert(key)
 # print(T.search("ther"))
 T.contentCount(T.root, T.root)
-T.delete("there")
+T.delete("any")
+print("----")
 T.contentCount(T.root, T.root)
