@@ -1,2 +1,7 @@
-# trie
-General purpose trie data structure python
+# Trie
+
+
+| Insert | Search | Content |
+| - | - | - |
+|   |   |   |
+|   |   |   |

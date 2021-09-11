@@ -46,12 +46,35 @@ class Trie:
             return f"partial match {found}"
         else:
             return "NOT FOUND"
-
+    # You can also give "at" at any position like foot and it will return footpath and football
+    # Print in sorted order (You can change this by changing for loop)
+    def content(self, at, start, curr = ""):
+        if(at != start):
+            curr += at.data
+        if(at.isEndOfWord == True):
+            print(curr, at.count)
+        for i in range(SIZE):
+            if(at.children[i]):
+                self.content(at.children[i], start, curr)
+    # ["the", "their", "there"] for prefix = "the" then prints ["", "ir", "er"]
+    def autoComplete(self, prefix):
+        at = self.root
+        matches = True
+        for i in prefix:
+            if(matches and at.children[self.Ord(i)]):
+                at = at.children[self.Ord(i)]
+            else:
+                matches = False
+                break
+        if(matches == True):
+            self.content(at, at)
 T = Trie("a")
-keys = ["the","a","there","anaswe","there","any","by","their"]
+keys = ["the","a","there","answer","there","any","by","their"]
 for key in keys:
     T.insert(key)
-print(T.search("ther"))
+# print(T.search("ther"))
+T.content(T.root, T.root)
+T.autoComplete("the")
            
 
 
