@@ -1,4 +1,3 @@
-# Change this to 2 if using numbers in trie
 SIZE = 26
 class TrieNode: 
     def __init__(self): 
@@ -8,31 +7,30 @@ class TrieNode:
         self.numEndofWord = 0  # To find Occurance of String
         self.isEndOfWord = False # To find Existance of String
 class Trie:
-    # base for binary (0 - 1) -> str = "0" and alphabet (a - z) -> str = "a"
     def __init__(self, base):
         self.root = TrieNode()
-        self.BASE = base
-    def Ord(self, str):
+        self.BASE = "a"                                     # Only working with alphabets "a"-"z"
+    # return order of string "a" - 0, "b" - 1
+    def Ord(self, str): 
         return ord(str) - ord(self.BASE)
+    # inserts string in trie
     def insert(self,string):
         at = self.root
-        matches = True
+        matches = True                                      # if prefix already found matches remains true otherwise make new TrieNodes
         for i in string:
             # If Already Present, Just Crawl Down.
             if(matches and at.children[self.Ord(i)]):
-                at = at.children[self.Ord(i)]
-                at.count += 1
+                at = at.children[self.Ord(i)]               # Crawl Down
+                at.count += 1                               # Count++ because one more prefix exists now.
             # Else Create a new TrieNode and Mark data as i and matches False
             else:
-                at.children[self.Ord(i)] = TrieNode()
-                at = at.children[self.Ord(i)]
-                at.count += 1
-                at.data = i
-                matches = False
-        # Seperate work for last one
-        at.isEndOfWord = True
-        ## Count of end of string is increased by 1
-        at.numEndofWord += 1
+                at.children[self.Ord(i)] = TrieNode()       # New TrieNode Created
+                at = at.children[self.Ord(i)]               # Crawl Down to newly Created Trienode
+                at.count += 1                               # Count++ because one more prefix exists now.
+                at.data = i                                 # Add the data to TrieNode
+                matches = False                             # Matches false because now every time we have to create new TrieNode
+        at.isEndOfWord = True                               # Seperate work for last one
+        at.numEndofWord += 1                                # Count of end of string is increased by 1
     def search(self,string):
         at = self.root
         matches = True
