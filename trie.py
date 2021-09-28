@@ -3,9 +3,9 @@ class TrieNode:
     def __init__(self): 
         self.data = '/'
         self.children = [None]*SIZE
-        self.count = 0  # For delete operation to work out
-        self.numEndofWord = 0  # To find Occurance of String
-        self.isEndOfWord = False # To find Existance of String
+        self.count = 0                                      # For delete operation to work out
+        self.numEndofWord = 0                               # To find Occurance of String
+        self.isEndOfWord = False                            # To find Existance of String
 class Trie:
     def __init__(self, base):
         self.root = TrieNode()
@@ -31,23 +31,25 @@ class Trie:
                 matches = False                             # Matches false because now every time we have to create new TrieNode
         at.isEndOfWord = True                               # Seperate work for last one
         at.numEndofWord += 1                                # Count of end of string is increased by 1
+    # search string in trie                           
     def search(self,string):
-        at = self.root
-        matches = True
-        found = ""
+        at = self.root                                      # Initialize Crawler
+        matches = True                                      # if prefix already found it remains true
+        found = ""                                          # stores prefix of string which is present in trie
         for i in string:
-            if(matches and at.children[self.Ord(i)]):
-                at = at.children[self.Ord(i)]
-                found += at.data
+            if(matches and at.children[self.Ord(i)]):       # matches + children is not null
+                at = at.children[self.Ord(i)]               # Crawl down
+                found += at.data                            # Add data
             else:
-                matches = False
+                matches = False                             # Break cause data not found
                 break
-        if(matches and at.isEndOfWord and found):
+        if(matches and at.isEndOfWord and found):           # Last is "isEndOfWord" then found whole
             return f"found whole {found}"
-        elif(matches and found):
+        elif(matches and found):                            # not "isEndOfWord" then partial 
             return f"partial match {found}"
-        else:
+        else:                                               
             return "NOT FOUND"
+    # dfs to find content in trie
     # You can also give "at" at any position like foot and it will return footpath and football
     # Print in sorted order (You can change this by changing for loop)
     def content(self, at, start, curr = ""):
@@ -58,6 +60,7 @@ class Trie:
         for i in range(SIZE):
             if(at.children[i]):
                 self.content(at.children[i], start, curr)
+    # finds remaining suffix possible
     # ["the", "their", "there"] for prefix = "the" then prints ["", "ir", "er"]
     def autoComplete(self, prefix):
         at = self.root
@@ -70,7 +73,7 @@ class Trie:
                 break
         if(matches == True):
             self.content(at, at)
-    # Also prints count of each word along with whole string occurance
+    # prints count of each word along with whole string occurance
     def contentCount(self, at, start, curr = ""):
         if(at != start):
             curr += at.data
@@ -82,14 +85,14 @@ class Trie:
                 self.contentCount(at.children[i], start, curr)
     # Assumes that string is present in trie
     def delete(self, string):
-        at = self.root
+        at = self.root                                      # Initialize Crawler
         for i in string:
-            at = at.children[self.Ord(i)]
-            at.count -= 1
-        at.numEndofWord -= 1
-        # Mark End of Word as False if numEndOfWord becomes 0
+            at = at.children[self.Ord(i)]                   # Crawl down
+            at.count -= 1                                   # --count cuz removing one occurance
+        at.numEndofWord -= 1                                # one numEndOfWord negated
         if(at.numEndofWord == 0):
-            at.isEndOfWord = False
+            at.isEndOfWord = False                          # Mark "isEndOfWord" as False if "numEndOfWord" becomes 0
+        # If at any point children doesn't exist mark that as none otherwise memory wasted.
         at = self.root
         for i in string:
             if(at.children[self.Ord(i)].count == 0):
