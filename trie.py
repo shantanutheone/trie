@@ -4,7 +4,7 @@ class TrieNode:
         self.data = '/'
         self.children = [None]*SIZE
         self.count = 0                                      # For delete operation to work out
-        self.numEndofWord = 0                               # To find Occurance of String
+        self.numEndOfWord = 0                               # To find Occurance of String
         self.isEndOfWord = False                            # To find Existance of String
 class Trie:
     def __init__(self, base):
@@ -30,7 +30,7 @@ class Trie:
                 at.data = i                                 # Add the data to TrieNode
                 matches = False                             # Matches false because now every time we have to create new TrieNode
         at.isEndOfWord = True                               # Seperate work for last one
-        at.numEndofWord += 1                                # Count of end of string is increased by 1
+        at.numEndOfWord += 1                                # Count of end of string is increased by 1
     # search string in trie                           
     def search(self,string):
         at = self.root                                      # Initialize Crawler
@@ -56,7 +56,7 @@ class Trie:
         if(at != start):
             curr += at.data
         if(at.isEndOfWord == True):
-            print(curr, at.numEndofWord)
+            print(curr, at.numEndOfWord)
         for i in range(SIZE):
             if(at.children[i]):
                 self.content(at.children[i], start, curr)
@@ -79,7 +79,7 @@ class Trie:
             curr += at.data
         print(at.data, at.count)
         if(at.isEndOfWord == True):
-            print(curr, "->", at.numEndofWord)
+            print(curr, "->", at.numEndOfWord)
         for i in range(SIZE):
             if(at.children[i]):
                 self.contentCount(at.children[i], start, curr)
@@ -89,8 +89,8 @@ class Trie:
         for i in string:
             at = at.children[self.Ord(i)]                   # Crawl down
             at.count -= 1                                   # --count cuz removing one occurance
-        at.numEndofWord -= 1                                # one numEndOfWord negated
-        if(at.numEndofWord == 0):
+        at.numEndOfWord -= 1                                # one numEndOfWord negated
+        if(at.numEndOfWord == 0):
             at.isEndOfWord = False                          # Mark "isEndOfWord" as False if "numEndOfWord" becomes 0
         # If at any point children doesn't exist mark that as none otherwise memory wasted.
         at = self.root
