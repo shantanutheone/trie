@@ -11,10 +11,11 @@ class Trie:
         self.root = TrieNode()
         self.BASE = "a"                                     # Only working with alphabets "a"-"z"
     # return order of string "a" - 0, "b" - 1
-    def Ord(self, str): 
+    def Ord(self, str) -> int: 
         return ord(str) - ord(self.BASE)
     # inserts string in trie
-    def insert(self,string):
+    #! Change "matches", because we might not need it.
+    def insert(self,string) -> None:
         at = self.root
         matches = True                                      # if prefix already found matches remains true otherwise make new TrieNodes
         for i in string:
@@ -32,7 +33,7 @@ class Trie:
         at.isEndOfWord = True                               # Seperate work for last one
         at.numEndOfWord += 1                                # Count of end of string is increased by 1
     # search string in trie                           
-    def search(self,string):
+    def search(self,string) -> None:
         at = self.root                                      # Initialize Crawler
         matches = True                                      # if prefix already found it remains true
         found = ""                                          # stores prefix of string which is present in trie
@@ -52,7 +53,8 @@ class Trie:
     # dfs to find content in trie
     # You can also give "at" at any position like foot and it will return footpath and football
     # Print in sorted order (You can change this by changing for loop)
-    def content(self, at, start, curr = ""):
+    # USAGE: T.content(T.root, T.root)
+    def content(self, at, start, curr = "") -> None:
         if(at != start):
             curr += at.data
         if(at.isEndOfWord == True):
@@ -62,7 +64,7 @@ class Trie:
                 self.content(at.children[i], start, curr)
     # finds remaining suffix possible
     # ["the", "their", "there"] for prefix = "the" then prints ["", "ir", "er"]
-    def autoComplete(self, prefix):
+    def autoComplete(self, prefix) -> None:
         at = self.root
         matches = True
         for i in prefix:
@@ -74,7 +76,7 @@ class Trie:
         if(matches == True):
             self.content(at, at)
     # prints count of each word along with whole string occurance
-    def contentCount(self, at, start, curr = ""):
+    def contentCount(self, at, start, curr = "") -> None:
         if(at != start):
             curr += at.data
         print(at.data, at.count)
@@ -84,7 +86,7 @@ class Trie:
             if(at.children[i]):
                 self.contentCount(at.children[i], start, curr)
     # Assumes that string is present in trie
-    def delete(self, string):
+    def delete(self, string) -> None:
         at = self.root                                      # Initialize Crawler
         for i in string:
             at = at.children[self.Ord(i)]                   # Crawl down
@@ -103,8 +105,9 @@ T = Trie("a")
 keys = ["the","a","there","answer","there","any","by","their","anyway", "ask", "afk","ask"]
 for key in keys:
     T.insert(key)
-# print(T.search("ther"))
-T.contentCount(T.root, T.root)
-T.delete("any")
-print("----")
-T.contentCount(T.root, T.root)
+# # print(T.search("ther"))
+# T.contentCount(T.root, T.root)
+# T.delete("any")
+# print("----")
+# T.contentCount(T.root, T.root)
+T.content(T.root, T.root)
