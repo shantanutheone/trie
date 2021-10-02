@@ -10,10 +10,10 @@ class Trie:
     def __init__(self):
         self.root = TrieNode()
     # Return a string of len 31 which represents binary equivalent of decimal
-    def convert31(self, num) -> str:
+    def convert31(self, num):
         curr = bin(num)[2:]
         return "0" * (31 - len(curr)) + curr
-    def insert(self, num) -> None:
+    def insert(self, num):
         at = self.root                                        # Initialize crawler
         string = self.convert31(num)                          # Convert num to string format (31 bit)
         for i in string:
@@ -85,14 +85,27 @@ class Trie:
                 at = at.children[idx]                          # Crawl down to same
                 res += "0"                                     # Add 0 because same xor makes 0
         return int(res, 2)
+    # Assumes atleast 1 number present in trie
+    # Returns smaller number present in trie
+    def minimum(self):
+        at = self.root
+        res = ""
+        while(at.numEndOfNumber == False):
+            for i in range(SIZE):
+                if(at.children[i]):
+                    at = at.children[i]
+                    res += str(at.data)
+                    break
+        return int(res, 2)
 T = Trie()
 nums = [12, 456, 64, 128]
 for i in nums:
     T.insert(i)
-x =58
-real_ans = 0
-for i in nums:
-    real_ans = max(real_ans, i ^ x)
-print(real_ans)
-T.content(T.root, T.root)
-print(T.xor_max(x))
+# x =58
+# real_ans = 0
+# for i in nums:
+#     real_ans = max(real_ans, i ^ x)
+# print(real_ans)
+# T.content(T.root, T.root)
+# print(T.xor_max(x))
+print(T.minimum())
